@@ -14,39 +14,35 @@ set -o nounset
 
 HOST_CLI="$1"
 
-#DNS_LOOKUP=$(host -s -W 1 -t SRV _con._tcp.$HOST_CLI)
 DNS_LOOKUP=$(host -t SRV _con._tcp.${HOST_CLI})
 
 if [ "$?" -ne 0 ]; then
-   printf "\n"
-   printf " --- Unable to find SRV console entry in DNS\n"
-   printf " --- Trying con.${HOST_CLI}\n"
-   
+   # SRV lookup failed, now trying a simple con.HOST lookup.
+   printf " --- SRV Lookup failed; trying con.${HOST_CLI}\n"
    DNS_LOOKUP=$(host con.${HOST_CLI})
-
    if [ "$?" -ne 0 ]; then
-      printf " --- Unable to resolve con.${HOST_CLI}.\n"
-      printf " --- Thanks for playing."
+      # con.HOST failed, exiting.
+      printf " --- con.${HOST_CLI} failed, exiting.\n"
       exit 1;
    else
-      printf " --- Success!\n"
+      # con.[host_name] success, setting standard telnet port and concantenated hostname.
+      printf " --- Found con.${HOST_CLI}, using standard telnet port 23.\n"
       CONSOLE_PORT="23"
       CONSOLE_SERVER="con.${HOST_CLI}"
    fi
-
 else
+   # SRV lookup succeeded, parsing lookup reply, setting port & server.
    CONSOLE_PORT="$(echo ${DNS_LOOKUP} | cut -d\  -f7)"
    CONSOLE_SERVER="$(echo ${DNS_LOOKUP} | cut -d\  -f8 | rev | cut -c 2- | rev)"
+   printf " --- SRV lookup succeeded. Using ${CONSOLE_SERVER} and port ${CONSOLE_PORT}.\n"
 fi
-printf "\n"
-printf " --- Console Port: ${CONSOLE_PORT}\n"
-printf " --- Console Port: ${CONSOLE_SERVER}\n"
-
-printf "\n"
 
 # Connect to terminal server
 telnet ${CONSOLE_SERVER} ${CONSOLE_PORT}
 
+if [ "$?" -ne 0 ]; then
+    exit 1;
+fi
 
 
 
