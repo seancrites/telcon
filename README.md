@@ -41,9 +41,9 @@ ip host rtr 2015 172.21.1.1
 The [NAME] field do not need to match between the DNS record and the router config. The [TARGET] must be the hostname of the device serving as the terminal server.
 
 ## Reference
-SRV Records: https://en.wikipedia.org/wiki/SRV_record
-Cisco Terminal Servers: https://www.cisco.com/c/en/us/support/docs/dial-access/asynchronous-connections/5466-comm-server.html
-Cisco Press: http://www.ciscopress.com/articles/article.asp?p=27650&seqNum=5
+*SRV Records: https://en.wikipedia.org/wiki/SRV_record
+*Cisco Terminal Servers: https://www.cisco.com/c/en/us/support/docs/dial-access/asynchronous-connections/5466-comm-server.html
+*Cisco Press: http://www.ciscopress.com/articles/article.asp?p=27650&seqNum=5
 
 ## License
 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
