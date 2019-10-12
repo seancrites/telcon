@@ -38,7 +38,7 @@ Example:
 
 ip host rtr 2015 172.21.1.1
 
-The [NAME] field do not need to match between the DNS record and the router config. The [TARGET] must be the hostname of the device serving as the terminal server.
+The [NAME] field do not need to match between the DNS record and the router config. The [TARGET] must be an A record that resolves to the hostname of the device serving as the terminal server.
 
 ## Reference
 *SRV Records: https://en.wikipedia.org/wiki/SRV_record
